@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { PaperProvider } from 'react-native-paper';
 
 import Map from './screens/Map'
 import Profile from './screens/Profile'
@@ -14,6 +15,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+    <PaperProvider>
       <Tab.Navigator 
       initialRouteName={"Map"}
       screenOptions={({ route }) => ({
@@ -45,6 +47,7 @@ export default function App() {
         <Tab.Screen name="Settings" component={Settings} options={{ title: 'Settings' }} />
       </Tab.Navigator>
       <StatusBar style="auto" />
+    </PaperProvider>
     </NavigationContainer>
   );
 }

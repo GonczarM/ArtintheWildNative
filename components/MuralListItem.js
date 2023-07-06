@@ -1,20 +1,13 @@
 import { View } from 'react-native'
-import { Avatar, Button, Card, Text } from 'react-native-paper';
+import { Card } from 'react-native-paper';
 
-function MuralListItem({ mural }) {
+function MuralListItem({ handleMuralClick, mural }) {
 
   return(
     <View>
-      <Card>
-        <Card.Title/>
-        <Card.Content>
-          <Text variant="titleLarge">{mural.title}</Text>
-          <Text variant="bodyMedium">{mural.artist}</Text>
-        </Card.Content>
+      <Card onPress={() => handleMuralClick(mural)}>
         {mural.favoritePhoto && <Card.Cover source={{ uri: mural.favoritePhoto }} />}
-        <Card.Actions>
-          <Button>View</Button>
-        </Card.Actions>
+        <Card.Title title={mural.title} subtitle={`by ${mural.artist}`}/>
       </Card>
     </View>
   )

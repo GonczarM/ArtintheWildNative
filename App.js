@@ -7,8 +7,7 @@ import { PaperProvider } from 'react-native-paper';
 import Map from './screens/Map'
 import Profile from './screens/Profile'
 import CreateMural from './screens/CreateMural';
-import ListMurals from './screens/ListMurals';
-import Settings from './screens/Settings';
+import ListStack from './screens/ListStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,8 +42,7 @@ export default function App() {
         <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
         <Tab.Screen name="Create" component={CreateMural} options={{ title: 'Create Mural' }} />
         <Tab.Screen name="Map" component={Map}  options={{ title: 'Map' }}/>
-        <Tab.Screen name="List" component={ListMurals} options={{ title: 'List' }} />
-        <Tab.Screen name="Settings" component={Settings} options={{ title: 'Settings' }} />
+        <Tab.Screen name="List" component={ListStack} options={{ title: 'List', headerShown: false }} />
       </Tab.Navigator>
       <StatusBar style="auto" />
     </PaperProvider>

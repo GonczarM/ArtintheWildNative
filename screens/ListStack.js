@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, FlatList} from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import * as muralsAPI from '../utils/murals-api'
 import MuralListItem from '../components/MuralListItem';
+import MuralCard from './MuralCard';
+
+const Stack = createNativeStackNavigator();
 
 function ListMurals({ navigation }) {
 
@@ -18,26 +22,39 @@ function ListMurals({ navigation }) {
     try{
       const APIMurals = await muralsAPI.getMurals()
       setMurals(APIMurals.murals)
-      // const randomMurals = []
-      // for (let i = 0; i < 6; i++) {
-      //   const randomMural = getRandomMural(APIMurals.murals)
-      //   randomMurals.push(randomMural)
-      // }
-      // setMurals(randomMurals)
     }catch{
       // setError('Could not get murals. Please refresh and try again.')
     }
   }
 
+  const handleMuralClick = (mural) => {
+    navigation.navigate('Mural Card', {mural});
+  }
+
   return (
     <SafeAreaView>
-      {murals && murals.length > 0 && <FlatList
+      <FlatList
         data={murals}
-        renderItem={(m) => <MuralListItem mural={m.item} />}
+        renderItem={(mural) => <MuralListItem mural={mural.item} handleMuralClick={handleMuralClick} />}
         keyExtractor={mural => mural._id}
-      />}
+      />
     </SafeAreaView>
-  );
+  )
 };
 
-export default ListMurals;
+function ListStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name='List Murals' 
+        component={ListMurals}
+      />
+      <Stack.Screen 
+        name='Mural Card' 
+        component={MuralCard}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export default ListStack;

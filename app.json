@@ -2,7 +2,7 @@
   "expo": {
     "name": "artinthewild",
     "slug": "artinthewild",
-    "version": "1.0.0",
+    "version": "0.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow Art in the Wild to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow Art in the Wild to access this device's location"
         }
       ]
     ],
@@ -28,14 +28,20 @@
     "android": {
       "config": {
         "googleMaps": {
-          "apiKey": "YOUR_API_KEY"
+          "apiKey": "AIzaSyDbwPPWq_k4cRLYcvzbW2pgNXGzdabWpaQ"
         }
       },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.gonzatron.artinthewild"
+      "package": "com.gonzatron.artinthewild",
+      "versionCode": 3,
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -44,6 +50,12 @@
       "eas": {
         "projectId": "28277674-e578-4073-b13c-71111479308e"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/28277674-e578-4073-b13c-71111479308e"
     }
   }
 }

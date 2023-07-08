@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
-import { View, StyleSheet, Text, Image, TouchableOpacity, Pressable, } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { View, StyleSheet, Pressable, } from 'react-native';
 import * as Location from 'expo-location';
-import { Banner } from 'react-native-paper';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import * as muralsAPI from '../utils/murals-api'
 import MuralBanner from '../components/MuralBanner';
+import MuralCard from './MuralCard';
+
+const Stack = createNativeStackNavigator();
 
 function Map({navigation}) {
 
   const [murals, setMurals] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null);
   const [mural, setMural] = useState(null)
-  const [visible, setVisible] = React.useState(true);
   
   useEffect(() => {
     if(!murals){
@@ -39,10 +41,6 @@ function Map({navigation}) {
   };
 
   const handleMarkerClick = (clickedMural) => {
-    const muralIndex = murals.findIndex(mural => mural === clickedMural);
-    const updatedMurals = [...murals]
-    updatedMurals[muralIndex] = {...clickedMural, clicked: true}
-    setMurals(updatedMurals)
     setMural(clickedMural)
   }
 
@@ -68,7 +66,6 @@ function Map({navigation}) {
           key={index}
           coordinate={{latitude: mural.latitude, longitude: mural.longitude}}
           onPress={() => handleMarkerClick(mural)}
-          pinColor={mural.clicked ? 'red' : 'blue'}
         />))}
       </MapView>
       {mural && <View style={{width: '100%'}}>
@@ -93,4 +90,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map
+function MapStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name='Map' 
+        component={Map}
+      />
+      <Stack.Screen 
+        name='Mural Card' 
+        component={MuralCard}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export default MapStack

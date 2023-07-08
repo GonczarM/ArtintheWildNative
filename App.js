@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { PaperProvider } from 'react-native-paper';
 
-import Map from './screens/Map'
+import MapStack from './screens/MapStack'
 import Profile from './screens/Profile'
 import CreateMural from './screens/CreateMural';
 import ListStack from './screens/ListStack';
@@ -16,7 +16,7 @@ export default function App() {
     <NavigationContainer>
     <PaperProvider>
       <Tab.Navigator 
-      initialRouteName={"Map"}
+      initialRouteName={"MapOfMurals"}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -25,7 +25,7 @@ export default function App() {
             iconName = 'user'
           } else if (route.name === 'Settings') {
             iconName = 'cog'
-          } else if (route.name === 'Map') {
+          } else if (route.name === 'MapOfMurals') {
             iconName = 'map-marker-alt'
           } else if (route.name === 'List') {
             iconName = 'list'
@@ -41,7 +41,7 @@ export default function App() {
       >
         <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
         <Tab.Screen name="Create" component={CreateMural} options={{ title: 'Create Mural' }} />
-        <Tab.Screen name="Map" component={Map}  options={{ title: 'Map' }}/>
+        <Tab.Screen name="MapOfMurals" component={MapStack}  options={{ title: 'Map', headerShown: false }}/>
         <Tab.Screen name="List" component={ListStack} options={{ title: 'List', headerShown: false }} />
       </Tab.Navigator>
       <StatusBar style="auto" />

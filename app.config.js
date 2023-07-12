@@ -19,6 +19,13 @@ module.exports = {
             "Allow Art in the Wild to access this device's location",
         },
       ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Art in the Wild to access your photos.",
+          "cameraPermission": "Allow Art in the Wild to access your camera."
+        }
+      ],
     ],
     assetBundlePatterns: ["**/*"],
     ios: {

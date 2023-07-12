@@ -17,7 +17,7 @@ function Login({loginUser}){
 			const user = await login(form)
 			setForm(initialUser)
 			loginUser(user)
-			console.log(user)
+			// console.log(user)
 		}
 		catch({message}){
 			if(message === 'Conflict'){

@@ -8,7 +8,7 @@ export default async function sendRequest(url, method = 'GET', payload = null) {
     options.headers = { 'Content-Type': 'application/json' };
     options.body = JSON.stringify(payload);
   }
-  const token = getToken();
+  const token = await getToken();
   if (token) {
     options.headers = options.headers || {};
     options.headers.Authorization = `Bearer ${token}`;

@@ -1,30 +1,7 @@
 import sendRequest from './send-request';
 const BASE_URL = 'https://art-in-the-wild.herokuapp.com/api/users';
-
-export function signUp(userData) {
-  return sendRequest(`${BASE_URL}/register`, 'POST', userData);
-}
+// const BASE_URL = 'http://10.0.2.2:3001/api/users'
 
 export function login(credentials) {
   return sendRequest(`${BASE_URL}/login`, 'POST', credentials);
-}
-
-export function getUserMurals() {
-  return sendRequest(`${BASE_URL}/murals`);
-}
-
-export function getUserFavorites(){
-  return sendRequest(`${BASE_URL}/favorites`)
-}
-
-export function favoriteMural(muralId){
-  return sendRequest(`${BASE_URL}/favorite/${muralId}`, 'PUT')
-}
-
-export function favoritePhoto(photoId){
-  return sendRequest(`${BASE_URL}/photo/${photoId}`, 'PUT')
-}
-
-export function deleteUser(){
-  return sendRequest(`${BASE_URL}`, 'DELETE')
 }

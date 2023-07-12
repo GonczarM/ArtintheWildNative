@@ -44,7 +44,7 @@ export default function App() {
         <Tab.Screen name="MapOfMurals" component={MapStack}  options={{ title: 'Map', headerShown: false }}/>
         <Tab.Screen name="List" component={ListStack} options={{ title: 'List', headerShown: false }} />
       </Tab.Navigator>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </PaperProvider>
     </NavigationContainer>
   );

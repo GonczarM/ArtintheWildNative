@@ -2,7 +2,7 @@ module.exports = {
   expo: {
     name: "Art in the Wild",
     slug: "artinthewild",
-    version: "0.0.4",
+    version: "0.0.5",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "automatic",
@@ -42,7 +42,7 @@ module.exports = {
         backgroundColor: "#ffffff",
       },
       package: "com.gonzatron.artinthewild",
-      versionCode: 4,
+      versionCode: 5,
       permissions: [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",

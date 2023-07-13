@@ -1,60 +1,24 @@
 import { ScrollView } from 'react-native'
 import { Button, Card, Text, Modal, Portal, PaperProvider } from 'react-native-paper';
 import * as Linking from 'expo-linking';
-import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
-import * as muralsAPI from '../utils/murals-api'
+import AddImage from '../components/AddImage'
+import { MuralContext, MuralDispatchContext} from '../utils/context';
 
 function MuralCard({ route }) {
 
-  const [status, requestPermission] = ImagePicker.useCameraPermissions()
   const [visible, setVisible] = useState(false)
-  const [image, setImage] = useState(null)
-  const { mural } = route.params
+  const mural = useContext(MuralContext)
 
-  const pickImage = async (imageUpload) => {
-    let result
-    if(imageUpload === 'camera'){
-      console.log(status)
-      if (!status.granted) {
-        requestPermission();
-      }
-      result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-    }else if(imageUpload === 'library'){
-      result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-    }
-    setImage(result.assets[0].uri)
-  }
+  const dispatch = useContext(MuralDispatchContext)
 
-  const addImage = async () => {
-    try{
-      const data = new FormData()
-      data.append('photo', {
-        uri: image,
-        name: 'image.jpg',
-        type: 'image/jpeg',
-      });
-      const updatedMural = await muralsAPI.addPhoto(data, mural._id)
-      console.log(updatedMural)
-    }catch({message}){
-      console.log(message)
-			// if(message === 'Unauthorized'){
-			// 	setError('Unauthorized. Please login and try again.')
-			// }else{
-      //   setError('Add Photo Failed. Please try Again.')
-      // }
-    }
+  const updateMural = (updatedMural) => {
+    dispatch({
+      type: 'changed',
+      mural: updatedMural
+    })
+    setVisible(false)
   }
 
   return(
@@ -79,18 +43,7 @@ function MuralCard({ route }) {
       </Card>
       <Portal>
         <Modal visible={visible} onDismiss={() => setVisible(false)} >
-          <Card>
-            {image && <Card.Cover source={{uri: image}} />}
-            <Card.Actions>
-              {!image ? <>
-                <Button onPress={() => pickImage('library')}>Upload Photo</Button>
-                <Button onPress={() => pickImage('camera')}>Take Photo</Button>
-              </>
-              : <>
-                <Button onPress={addImage}>Add Photo</Button>
-              </>}
-            </Card.Actions>
-          </Card>
+          <AddImage mural={mural} updateMural={updateMural} />
         </Modal>
       </Portal>
     </ScrollView>

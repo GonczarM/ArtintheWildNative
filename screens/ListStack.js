@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+
 import { SafeAreaView, FlatList} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,24 +8,9 @@ import MuralCard from './MuralCard';
 
 const Stack = createNativeStackNavigator();
 
-function ListMurals({ navigation }) {
-
-  const [murals, setMurals] = useState(null)
-
-  useEffect(() => {
-    if(!murals){
-      getMurals()
-    }
-  }, [])
-
-  const getMurals = async () => {
-    try{
-      const APIMurals = await muralsAPI.getMurals()
-      setMurals(APIMurals.murals)
-    }catch{
-      // setError('Could not get murals. Please refresh and try again.')
-    }
-  }
+function ListMurals({ navigation, route }) {
+  
+  const { murals } = route.params
 
   const handleMuralClick = (mural) => {
     navigation.navigate('Mural Card', {mural});
@@ -42,12 +27,13 @@ function ListMurals({ navigation }) {
   )
 };
 
-function ListStack() {
+function ListStack({route}) {
   return (
     <Stack.Navigator>
       <Stack.Screen 
         name='List Murals' 
         component={ListMurals}
+        initialParams={{murals: route.params.murals}}
       />
       <Stack.Screen 
         name='Mural Card' 

@@ -3,7 +3,10 @@ import { Image } from 'react-native';
 import { Banner, Text } from 'react-native-paper';
 
 const MuralBanner = ({ mural }) => {
+  
   const [visible, setVisible] = React.useState(true);
+
+  const imageSource = mural.favoritePhoto ? {uri: mural.favoritePhoto} : require('../assets/artInTheWild.jpg')
 
   return (
     <Banner
@@ -11,9 +14,7 @@ const MuralBanner = ({ mural }) => {
       visible={visible}
       icon={() => (
         <Image
-          source={{
-            uri: mural.favoritePhoto,
-          }}
+          source={imageSource}
           style={{
             width: 125,
             height: 125,

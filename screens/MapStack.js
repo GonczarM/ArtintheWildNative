@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MuralBanner from '../components/MuralBanner';
 import MuralCard from './MuralCard';
-import { MuralContext, MuralDispatchContext} from '../utils/context';
+import { MapMuralContext, MapMuralDispatchContext} from '../utils/context';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,9 +22,12 @@ function Map({navigation, route}) {
 
   const [errorMsg, setErrorMsg] = useState(null);
   const { murals } = route.params
-  const mural = useContext(MuralContext)
+  
+  const mural = useContext(MapMuralContext)
 
-  const dispatch = useContext(MuralDispatchContext)
+  const dispatch = useContext(MapMuralDispatchContext)
+
+
 
   const handleMarkerClick = (clickedMural) => {
     dispatch({
@@ -82,8 +85,8 @@ function MapStack({route}) {
   const [mural, dispatch] = useReducer(muralReducer, null);
 
   return (
-    <MuralContext.Provider value={mural}>
-    <MuralDispatchContext.Provider value={dispatch}>
+    <MapMuralContext.Provider value={mural}>
+    <MapMuralDispatchContext.Provider value={dispatch}>
     <Stack.Navigator>
       <Stack.Screen 
         name='Map' 
@@ -95,8 +98,8 @@ function MapStack({route}) {
         component={MuralCard}
       />
     </Stack.Navigator>
-    </MuralDispatchContext.Provider>
-    </MuralContext.Provider>
+    </MapMuralDispatchContext.Provider>
+    </MapMuralContext.Provider>
   );
 }
 

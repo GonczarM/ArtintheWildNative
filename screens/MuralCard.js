@@ -4,22 +4,38 @@ import * as Linking from 'expo-linking';
 import { useState, useContext } from 'react';
 
 import AddImage from '../components/AddImage'
-import { MuralContext, MuralDispatchContext} from '../utils/context';
+import { 
+  MapMuralContext, 
+  MapMuralDispatchContext, 
+  ListMuralContext, 
+  ListMuralDispatchContext,
+  MuralsDispatchContext,
+} from '../utils/context';
 
 function MuralCard({ route }) {
 
   const [visible, setVisible] = useState(false)
-  const mural = useContext(MuralContext)
+  const mapMural = useContext(MapMuralContext)
+  const listMural = useContext(ListMuralContext)
+  const mural = listMural || mapMural
 
-  const dispatch = useContext(MuralDispatchContext)
+  const mapMuralDispatch = useContext(MapMuralDispatchContext)
+  const listMuralDispatch = useContext(ListMuralDispatchContext)
+  const dispatch = listMural ? listMuralDispatch : mapMuralDispatch
+  const muralsDispatch = useContext(MuralsDispatchContext)
 
-  const updateMural = (updatedMural) => {
+  const handleUpdate = (updatedMural) => {
+    muralsDispatch({
+      type: 'changed',
+      mural: updatedMural
+    })
     dispatch({
       type: 'changed',
       mural: updatedMural
     })
     setVisible(false)
   }
+
 
   return(
     <PaperProvider>
@@ -43,7 +59,7 @@ function MuralCard({ route }) {
       </Card>
       <Portal>
         <Modal visible={visible} onDismiss={() => setVisible(false)} >
-          <AddImage mural={mural} updateMural={updateMural} />
+          <AddImage mural={mural} updateMural={handleUpdate} />
         </Modal>
       </Portal>
     </ScrollView>

@@ -3,38 +3,52 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { PaperProvider } from 'react-native-paper';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
+import 'expo-dev-client'
 
 import MapStack from './screens/MapStack'
 import Profile from './screens/Profile'
 import CreateMural from './screens/CreateMural';
 import ListStack from './screens/ListStack';
 import * as muralsAPI from './utils/murals-api'
-
+import { MuralsContext, MuralsDispatchContext} from './utils/context';
 
 const Tab = createBottomTabNavigator();
 
+function muralsReducer(murals, action){
+  switch (action.type) {
+    case 'changed': {
+      const muralIndex = murals.findIndex((mural) => mural._id === action.mural._id)
+      murals[muralIndex] = action.mural
+      return(murals)
+    }
+    case 'set': {
+      return(action.murals)
+    }
+  }
+}
+
 export default function App() {
 
-  const [murals, setMurals] = useState(null)
+  const [murals, dispatch] = useReducer(muralsReducer)
   const [errorMsg, setErrorMsg] = useState(null);
-  
+
   useEffect(() => {
-    if(!murals){
-      getMurals()
-    }
-  }, []);
+    getMurals()
+  }, [])
 
   const getMurals = async () => {
     try{
       const APIMurals = await muralsAPI.getMurals()
-      setMurals(APIMurals.murals)
+      dispatch({type: 'set', murals: APIMurals.murals})
     }catch{
       setErrorMsg('Could not get murals. Please refresh and try again.')
     }
   }
 
   return (
+    <MuralsContext.Provider value={murals}>
+    <MuralsDispatchContext.Provider value={dispatch}>
     <NavigationContainer>
     <PaperProvider>
      {murals && <Tab.Navigator 
@@ -64,8 +78,8 @@ export default function App() {
         <Tab.Screen 
           name="MapOfMurals" 
           component={MapStack} 
-          initialParams={{ murals }}
-          options={{ title: 'Map', headerShown: false, }}
+          initialParams={{ murals}}
+          options={{ title: 'Map', headerShown: false }}
         />
         <Tab.Screen 
           name="List" 
@@ -77,5 +91,7 @@ export default function App() {
       <StatusBar style="dark" />
     </PaperProvider>
     </NavigationContainer>
+    </MuralsDispatchContext.Provider>
+    </MuralsContext.Provider>
   );
 }
